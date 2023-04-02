@@ -1,0 +1,11 @@
+{
+    "search": "City, region, country",
+    "searchError":"This city does not exist or the server is not responding",
+    "error":"An error was occurred while retrieving weather data",
+    "defaultCity": "Kyiv",
+    "wheather.city": "Weather in",
+    "day": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "month": "January, February, March, April, May, June, July, August, September, October, November, December",
+    "min": "min",
+    "max": "max"
+}

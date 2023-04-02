@@ -1,0 +1,9 @@
+.errorBody {
+    height: 100vh;
+    display: grid;
+    place-content: center;
+    & .error {
+         text-align: center;
+         letter-spacing: 1.5px;
+    }
+}
