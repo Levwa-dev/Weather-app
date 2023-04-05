@@ -1,8 +1,9 @@
-interface IDaily {
+export interface IDaily {
     precipitation_probability_mean: number[],
     temperature_2m_max: number [],
     temperature_2m_min: number[],
     time: string[]
+    cloud?: number
 }
 export interface IDailyUnits {
     precipitation_probability_mean: string,
@@ -11,7 +12,7 @@ export interface IDailyUnits {
     time: string
 }
 
-interface IHourly {
+export interface IHourly {
     apparent_temperature: number[],
     cloudcover: number[],
     precipitation_probability_mean: number[],
@@ -21,7 +22,7 @@ interface IHourly {
     windspeed_10m: number[],
     time: string[]
 }
-interface IHourlyUnits {
+export interface IHourlyUnits {
     apparent_temperature: string,
     cloudcover: string,
     precipitation_probability: string,

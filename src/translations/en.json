@@ -7,5 +7,13 @@
     "day": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
     "month": "January, February, March, April, May, June, July, August, September, October, November, December",
     "min": "min",
-    "max": "max"
+    "max": "max",
+    "hourly.time":"Time",
+    "hourly.dayPart":"Night, Morning, Afternoon, Evening",
+    "hourly.temperature":"Temperature",
+    "hourly.feels":"Feels like",
+    "hourly.humidity":"Relative humidity",
+    "hourly.wind":"Wind speed",
+    "hourly.precipitation":"Precipitation probability",
+    "hourly.units.wind":"m/s"
 }

@@ -23,34 +23,34 @@ export const weatherService = {
     },
 
     chooseIconForCurrentWeather (cloud: number, precipitation: number, temperature: number) : IWeatherIcon {
-        if(precipitation > 97 && temperature >= 2) {
+        if(precipitation > 97 && temperature >= 22) {
             return {picture:thundershtorm, alt:''}
         }
         if(precipitation > 65 && temperature <= 1 && cloud > 65){
             return {picture:snow, alt:''}
         }
-        if(precipitation > 55 && temperature <= 1 && cloud > 35){
+        if(precipitation > 65 && temperature <= 1 && cloud > 35){
             return {picture:sunCloudSnow, alt:''}
         }
-        if(precipitation > 15  && temperature <= 1 && cloud > 55){
+        if(precipitation > 55  && temperature <= 1 && cloud > 55){
             return {picture:aLittleSnow, alt:''}
         }
-        if(precipitation > 55 && temperature >= 2 && cloud > 75){
+        if(precipitation > 75 && temperature >= 2 && cloud > 75){
             return {picture:rain, alt:''}
         }
-        if(precipitation > 15 && temperature >= 2 && cloud > 55) {
+        if(precipitation > 50 && temperature >= 2 && cloud > 50) {
             return {picture: aLittleRain, alt:''}
         }
-        if(precipitation > 15 && temperature >= 2 && cloud > 18) {
+        if(precipitation > 50 && temperature >= 2 && cloud > 50) {
             return {picture: sunAlittleRain, alt:''}
         }
-        if(precipitation > 55 && temperature >= 2 && cloud > 35){
+        if(precipitation > 50 && temperature >= 2 && cloud > 25){
             return {picture:sunCloudRain, alt:''}
         }
-        if(precipitation < 20 && cloud > 45) {
+        if(precipitation < 50 && cloud > 65) {
             return {picture: cloudly, alt:''}
         }
-        if(precipitation < 20 && cloud < 30 && cloud > 20) {
+        if(precipitation < 40 && cloud < 65 && cloud > 25) {
             return {picture: sunCloud, alt:''}
         }
         return {picture:sun, alt:''}
@@ -64,7 +64,7 @@ export const weatherService = {
         return {month, day, date}
     },
 
-    createDailyWeatherList (initialData: IResponse, days: any) { // returns a list with daily weather
+    createDailyWeatherList (initialData: IResponse, days: any) : IDailyData[] { // returns a list with daily weather
         const resultData = []
         const {daily, daily_units, hourly, hourly_units} = initialData
         const dailyProperty = Object.keys(daily)
@@ -76,11 +76,15 @@ export const weatherService = {
             let d : IDailyData = { daily:{}, hourly:{}, daily_units, hourly_units}
 
             for(let j = 0; j < dailyProperty.length; j++){      // get the weather for every day
-                d.daily[dailyProperty[j] as keyof IDailyData] = dailyValues[j][i] 
+                d.daily[dailyProperty[j] as keyof IDailyData] = dailyValues[j][i]
             }
 
-            for(let j = 0; j < hourlyProperty.length; j++){     // get the weather for every hour of the day
-                d.hourly[hourlyProperty[j] as keyof IDailyData] = hourlyValues[j].splice(0, 24) 
+            for(let j = 0; j < hourlyProperty.length; j++){     // get the weather for every third hour of the day
+                if(hourlyProperty[j] === 'cloudcover'){
+                    d.daily.cloud = this.getAverageCloud(hourlyValues[j])
+                }
+                d.hourly[hourlyProperty[j] as keyof IDailyData] = hourlyValues[j].splice(0, 24)
+                .filter((item: any, index: number) => index === 0 || index % 3 === 0) 
             }
             resultData.push(d)
         }
