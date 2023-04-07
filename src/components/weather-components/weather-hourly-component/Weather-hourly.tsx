@@ -17,18 +17,20 @@ interface IWeatherDHourlyProps {
 export default function WeatherHourly ({theme, data, active}: IWeatherDHourlyProps) {
     const [hourly, setHourly] = useState<INewHourlyData>()
     const [hourlyUnits, setHourlyUnits] = useState<IHourlyUnits>()
+    const [date, setDate] = useState({date:'', day:0, month:0})
     const { t } = useTranslation();
 
     const lightStyle = {
         backgroundColor: 'rgb(248, 252, 255)',
         boxShadow: '0 0 10px rgb(98, 161, 255)'
     }
-    const date = weatherService.getTime(hourly!?.time![0])
 
     useEffect(()=>{
         setHourly({...data[active]?.hourly})
         setHourlyUnits({...data[active]?.hourly_units})
-    },[active])
+        setDate(weatherService.getTime(data[active]?.hourly.time![0]))
+    },[data, active])
+
 
     return (
         <section className={styles.hourly}>

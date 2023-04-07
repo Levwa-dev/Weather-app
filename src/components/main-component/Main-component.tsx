@@ -14,14 +14,19 @@ import Error from '../error-component/Error-component';
 
 export default function MainComponent () {
     const {state, dispatch} = useContext(State)
-    const [params, setParams] = useState<IParams>(defaultParams)
+    let currentCity = JSON.parse(sessionStorage.getItem('currentCity')!)
+    currentCity = {...defaultParams, ...currentCity}
+    const [params, setParams] = useState<IParams>(currentCity || defaultParams)
     const { t } = useTranslation();
   
     useEffect(()=>{
-      dispatch({type: ActionTypes.LOADING, data:true})
-      weatherService.getWeather(params)
-      .then((data)=>dispatch({type:ActionTypes.DATA, data}))
-      .catch(err=>dispatch({type:ActionTypes.ERROR, data:t('error')}))
+        dispatch({type: ActionTypes.LOADING, data:true})
+        weatherService.getWeather(params)
+        .then((data)=> {
+          weatherService.setCacheWeatherRequest(params)
+          dispatch({type:ActionTypes.DATA, data})
+        })
+        .catch(err=>dispatch({type:ActionTypes.ERROR, data:t('error')}))
     },[params])
 
     useEffect(()=>{

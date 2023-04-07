@@ -18,6 +18,13 @@ import sunAlittleRain from '../images/weather/sun-a-little-rain-cloud.svg'
 
 
 export const weatherService = {
+    async getWeather (params: IParams) {
+        const data = (await weatherAxios.get<IResponse>('', {params})).data
+        const prepearedData: IPrepearedData = { city: params.city, dailyData:[]}
+        prepearedData.dailyData = this.createDailyWeatherList(data, 7)
+        return prepearedData
+    },
+
     getAverageCloud  (cloud: number[]) : number {
         return Math.round(cloud.reduce((prev, cur)=>prev+cur)/cloud.length)
     },
@@ -58,9 +65,9 @@ export const weatherService = {
 
     getTime(time:string) {
         const currentDate = new Date(time)
-        const month = currentDate.getMonth()
-        const day = currentDate.getDay()
-        const date = currentDate.getDate() < 10 ? `0${currentDate.getDate()}`: currentDate.getDate()
+        const month: number = currentDate.getMonth()
+        const day : number = currentDate.getDay()
+        const date : string  = currentDate.getDate() < 10 ? `0${currentDate.getDate()}`: `${currentDate.getDate()}`
         return {month, day, date}
     },
 
@@ -92,10 +99,32 @@ export const weatherService = {
 
     },
 
-    async getWeather (params: IParams) {
-        const data = (await weatherAxios.get<IResponse>('', {params})).data
-        const prepearedData: IPrepearedData = { city: params.city, dailyData:[]}
-        prepearedData.dailyData = this.createDailyWeatherList(data, 7)
-        return prepearedData
-    }
+    getCurrentCache () {
+        const currentDate = new Date()
+        let map = new Map()
+        const currentMap = sessionStorage.getItem('cachedRequests')
+        const hour = currentDate.getHours()
+        const date = currentDate.getDate()
+        if (currentMap) {
+            map = new Map(Object.entries(JSON.parse(currentMap!)))
+        }
+        return {map, date, hour}
+    },
+
+    async setCacheWeatherRequest (params: IParams) {
+        const {map, date, hour} = this.getCurrentCache()
+        const currentDate = `${hour}${date}`
+        const key = `${params.city} ${currentDate}`
+        if(!map.has(key)){
+            map.set(key, await this.getWeather(params))
+            map.forEach((value, key: string) => {
+                const date = key.split(' ')[1]
+                if(date < currentDate){
+                    map.delete(key)
+                }
+            })
+            sessionStorage.setItem('cachedRequests', JSON.stringify(Object.fromEntries(map)))
+        }
+        return map.get(key)
+    },
 }

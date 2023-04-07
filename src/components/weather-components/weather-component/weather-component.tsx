@@ -1,4 +1,4 @@
-import React, {useContext, useState, useMemo} from "react";
+import React, {useContext, useState, useMemo, useEffect} from "react";
 import { useTranslation } from "react-i18next";
 import { State } from "../../../App";
 import styles from './weather.module.scss'
@@ -17,7 +17,7 @@ export default function Weather () {
     dailyData = useMemo(()=>{
         return dailyData
     },[dailyData])
-
+    
     return (
         <section>
             <h1>{`${t('wheather.city')} ${city}`}</h1>

@@ -19,8 +19,9 @@ export default function SearchComponent({ setParams, prevValue }: ISearchCompone
 
     const sendData = async(address:string) => {
         const response = await geocodeService.getCoords(address)
-        const city = location.split(', ')[0]
+        const city = location
         if(!response.error){
+            sessionStorage.setItem('currentCity', JSON.stringify({city, latitude:response.lat!, longitude:response.lng!}))
             setParams({...prevValue, city, latitude:response.lat!, longitude:response.lng!})
         }
         else{

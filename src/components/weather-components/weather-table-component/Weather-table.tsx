@@ -21,9 +21,10 @@ export default function WeatherTable ({theme, hourly, hourlyUnits}: IWeatherTabl
     const backGroundColor = '#d9d9d9'
     const getDayParts = () => t('hourly.dayPart').split(', ')
     
-
     return (
-        <table className={styles.weatherTable}>
+        <>
+            { Object.keys(hourly).length &&
+                <table className={styles.weatherTable}>
                 <thead>
                 <tr className={styles.partOfTheDay}>
                     <th></th>
@@ -95,7 +96,7 @@ export default function WeatherTable ({theme, hourly, hourlyUnits}: IWeatherTabl
                     </tr>
                     <tr style={theme === 'light' ? {backgroundColor:backGroundColor}:{}} className={styles.wind}>
                         <td>{t('hourly.wind')}, {t('hourly.units.wind')}</td>
-                        {
+                            {
                             hourly?.windspeed_10m!.map((item, index)=>{
                                 return (
                                     <td key={index}>{item}</td>
@@ -115,5 +116,7 @@ export default function WeatherTable ({theme, hourly, hourlyUnits}: IWeatherTabl
                     </tr>
                 </tbody>
             </table>
+            }
+        </>
     )
 }
