@@ -8,14 +8,17 @@ import { IHourlyUnits } from "../../../types/main-component-types";
 
 interface IWeatherTable {
     hourly: INewHourlyData,
-    hourlyUnits: IHourlyUnits
+    hourlyUnits: IHourlyUnits,
+    theme: string
 }
 
-export default function WeatherTable ({hourly, hourlyUnits}: IWeatherTable) {
+export default function WeatherTable ({theme, hourly, hourlyUnits}: IWeatherTable) {
     const { t } = useTranslation();
+    
     const showTemperature = (temperature:number) => {
         return Math.round(temperature) > 0 ? `+${Math.round(temperature)}°`: Math.round(temperature)+'°'
     }
+    const backGroundColor = '#d9d9d9'
     const getDayParts = () => t('hourly.dayPart').split(', ')
     
 
@@ -34,7 +37,7 @@ export default function WeatherTable ({hourly, hourlyUnits}: IWeatherTable) {
                 </tr>
                 </thead>
                 <tbody className={styles.tableBody}>
-                    <tr className={styles.time}>
+                    <tr style={theme === 'light' ? {backgroundColor:backGroundColor}:{}} className={styles.time}>
                         <td>{t('hourly.time')}</td>
                         <td>00:00</td>
                         <td>03:00</td>
@@ -51,7 +54,7 @@ export default function WeatherTable ({hourly, hourlyUnits}: IWeatherTable) {
                             hourly?.temperature_2m!.map((item, index)=>{
                                 const cloud = hourly?.cloudcover![index]
                                 const precipitation = hourly?.precipitation_probability![index]
-                                const result = weatherService.chooseIconForCurrentWeather(cloud, precipitation, item)
+                                const result = weatherService.chooseIconForCurrentWeather(cloud, precipitation, Math.round(item))
                                 return (
                                     <td key={index}>
                                         <img className={styles.icon} src={result.picture} alt={result.alt} />
@@ -70,7 +73,7 @@ export default function WeatherTable ({hourly, hourlyUnits}: IWeatherTable) {
                             })
                         }
                     </tr>
-                    <tr className={styles.apparentTemperature}>
+                    <tr style={theme === 'light' ? {backgroundColor:backGroundColor}:{}} className={styles.apparentTemperature}>
                         <td>{`${t('hourly.feels')}, ${hourlyUnits?.apparent_temperature}`}</td>
                         {
                             hourly?.apparent_temperature!.map((item, index)=>{
@@ -90,8 +93,8 @@ export default function WeatherTable ({hourly, hourlyUnits}: IWeatherTable) {
                             })
                         }
                     </tr>
-                    <tr className={styles.wind}>
-                        <td>Вітер, {t('hourly.units.wind')}</td>
+                    <tr style={theme === 'light' ? {backgroundColor:backGroundColor}:{}} className={styles.wind}>
+                        <td>{t('hourly.wind')}, {t('hourly.units.wind')}</td>
                         {
                             hourly?.windspeed_10m!.map((item, index)=>{
                                 return (

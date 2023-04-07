@@ -35,7 +35,7 @@ export const weatherService = {
         if(precipitation > 55  && temperature <= 1 && cloud > 55){
             return {picture:aLittleSnow, alt:''}
         }
-        if(precipitation > 75 && temperature >= 2 && cloud > 75){
+        if(precipitation > 70 && temperature >= 2 && cloud > 70){
             return {picture:rain, alt:''}
         }
         if(precipitation > 50 && temperature >= 2 && cloud > 50) {

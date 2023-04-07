@@ -1,4 +1,4 @@
-import React, {Dispatch} from "react";
+import React, {Dispatch, useEffect} from "react";
 import styles from './weather-daily.module.scss'
 
 import { IDailyData } from '../../../types/weather-service-types'
@@ -6,12 +6,14 @@ import { weatherService } from "../../../services/weather-service";
 import { useTranslation } from "react-i18next";
 
 interface IWeatherDailyProps {
+    theme: string,
     dailyData: IDailyData[],
     setCard: Dispatch<number>
 }
 
-function WeatherDaily ({dailyData, setCard}: IWeatherDailyProps) {
+function WeatherDaily ({theme, dailyData, setCard}: IWeatherDailyProps) {
     const { t } = useTranslation();
+    const currentActiveClass = theme === 'dark'? styles.activeDark : styles.active
 
     const prepareDataForDisplay = (time: string, cloudcover: number, precipitation: number, temperatureMin: number, temperatureMax:  number ) => {
         const {day, date, month} = weatherService.getTime(time)
@@ -24,14 +26,28 @@ function WeatherDaily ({dailyData, setCard}: IWeatherDailyProps) {
 
     const changeActiveCard = (index:number) => (e: React.MouseEvent) : void => {
         const currentCard = e.currentTarget
-        const activeCard = document.querySelector(`.${styles.active}`)
-        activeCard!.classList.remove(`${styles.active}`)
-        currentCard.classList.add(`${styles.active}`)
+        const activeCard = document.querySelector(`.${currentActiveClass}`)
+        activeCard!.classList.remove(`${currentActiveClass}`)
+        currentCard.classList.add(`${currentActiveClass}`)
         setCard(index)
     }
 
+    useEffect(()=>{
+        if(theme === 'dark'){
+            const activeCard = document.querySelector(`.${styles.active}`)
+            activeCard!?.classList.remove(`${styles.active}`)
+            activeCard!?.classList.add(`${styles.activeDark}`)
+        }
+        else {
+            const activeCard = document.querySelector(`.${styles.activeDark}`)
+            activeCard!?.classList.remove(`${styles.activeDark}`)
+            activeCard!?.classList.add(`${styles.active}`)
+        }
+    },[theme])
+
     return (
-        <ul className={styles.dailyList}>
+        <div className={styles.container}>
+            <ul className={styles.dailyList}>
             {
                 dailyData.map(({ daily }, index)=> {
                     const {time, precipitation_probability_mean, temperature_2m_min, temperature_2m_max, cloud } = daily
@@ -63,6 +79,7 @@ function WeatherDaily ({dailyData, setCard}: IWeatherDailyProps) {
                 })
             }
         </ul>
+        </div>
     )
 }
 export default React.memo(WeatherDaily)

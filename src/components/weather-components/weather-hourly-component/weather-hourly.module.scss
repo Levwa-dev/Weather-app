@@ -1,0 +1,33 @@
+.hourly {
+    margin-bottom: 40px;
+    padding: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+.cont {
+    background-color: rgb(71, 45, 45);
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgb(253, 126, 126);
+    display: inline-flex;
+}
+    
+.currentDay {
+    width: 200px;
+    height: auto;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    & p {
+        font-size: 24px;
+        margin: 15px 0;
+        letter-spacing: 1.5px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .currentDay {
+        display: none;
+    }
+}

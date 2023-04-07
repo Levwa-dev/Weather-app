@@ -1,25 +1,31 @@
+.container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding:0 10px;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
 .dailyList {
     margin: 40px auto;
     display: grid;
+    place-content: center;
     grid-template-columns: repeat(7, 110px);
-    column-gap: 5px;
+    column-gap: 5px; 
 }
-.active {
-    box-shadow:  0 0 10px rgb(253, 126, 126);
-} 
 .listItem {
     padding: 3px;
     font-size: 16px;
     height: 200px;
     border: 1px solid #000;
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
+    border-radius: 8px;
     list-style: none;
     display: grid;
     place-items: center;
     cursor: pointer;
     &:hover {
-        box-shadow:  0 0 10px rgb(255, 168, 168);
+        transform: scale(1.05);
+        transition: 0.25s;
     }
     & img {
         width: 50px;
@@ -46,3 +52,19 @@
         }
     } 
 }
+.activeDark {
+    box-shadow:  0 0 10px rgb(253, 126, 126);
+    background-color: rgb(71, 45, 45);
+    transform: scale(1.05);
+}
+.active {
+    background-color: rgb(243, 250, 255);
+    box-shadow: 0 0 10px rgb(98, 161, 255);
+    transform: scale(1.05);
+} 
+@media screen and (max-width: 940px) {
+    .dailyList {
+        place-content: start;
+    }
+}
+
