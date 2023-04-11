@@ -15,6 +15,17 @@
     "hourly.humidity":"Відносна вологість",
     "hourly.wind":"Швідкість вітру",
     "hourly.precipitation":"Ймовірність опадів",
-    "hourly.units.wind":"м/сек"
+    "hourly.units.wind":"м/сек",
+    "icon.thundershtorm":"Гроза",
+    "icon.snow":"Сніг",
+    "icon.snowWithClearings":"Сніг з проясненнями",
+    "icon.aLittleSnow":"Невеликий сніг",
+    "icon.rain":"Дощ",
+    "icon.aLittleRain":"Невеликий дощ",
+    "icon.rainWithClearings":"Дощ з проясненнями",
+    "icon.cloudy":"Хмарно",
+    "icon.cloudyWithClearings":"Хмарно з проясненнями",
+    "icon.clear":"Ясно",
+    "icon.sunThundershtorm":"Блискавка з проясненнями"
 
 }

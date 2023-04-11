@@ -1,26 +1,29 @@
-import React, {Dispatch, useEffect} from "react";
+import React, {Dispatch, useEffect, useState} from "react";
 import styles from './weather-daily.module.scss'
 
-import { IDailyData } from '../../../types/weather-service-types'
+import { IDailyData, INewHourlyData } from '../../../types/weather-service-types'
+import { IDailyItem } from "../../../types/daily-component,types";
 import { weatherService } from "../../../services/weather-service";
 import { useTranslation } from "react-i18next";
 
 interface IWeatherDailyProps {
     theme: string,
+    activeCard: number,
     dailyData: IDailyData[],
     setCard: Dispatch<number>
 }
 
-function WeatherDaily ({theme, dailyData, setCard}: IWeatherDailyProps) {
+export default function WeatherDaily ({activeCard, theme, dailyData, setCard}: IWeatherDailyProps) {
     const { t } = useTranslation();
-    const currentActiveClass = theme === 'dark'? styles.activeDark : styles.active
+    const currentActiveClass: string = theme === 'dark'? styles.activeDark : styles.active
+    const [dailyList, setDailyList] = useState<IDailyItem[]>([])
 
-    const prepareDataForDisplay = (time: string, cloudcover: number, precipitation: number, temperatureMin: number, temperatureMax:  number ) => {
+    const prepareDataForDisplay = (hourly: INewHourlyData, time: string, temperatureMin: number, temperatureMax:  number ) : IDailyItem => {
         const {day, date, month} = weatherService.getTime(time)
-        const icon = weatherService.chooseIconForCurrentWeather(cloudcover, precipitation, Math.round(temperatureMin))
-        const holiday = day === 0 || day === 6 ? 'red' : ''
-        const maxTemperature = Math.round(temperatureMax) > 0 ? '+'+Math.round(temperatureMax)+'°' : Math.round(temperatureMax)+'°'
-        const minTemperature = Math.round(temperatureMin) > 0 ? '+'+Math.round(temperatureMin)+'°' : Math.round(temperatureMin)+'°'
+        const icon = weatherService.chooseAverageIconForDailyWeather(hourly.icons)
+        const holiday: string = day === 0 || day === 6 ? 'red' : ''
+        const maxTemperature: string = Math.round(temperatureMax) > 0 ? '+'+Math.round(temperatureMax)+'°' : Math.round(temperatureMax)+'°'
+        const minTemperature: string = Math.round(temperatureMin) > 0 ? '+'+Math.round(temperatureMin)+'°' : Math.round(temperatureMin)+'°'
         return {day, date, month, icon, holiday, maxTemperature, minTemperature}
     }
 
@@ -33,53 +36,46 @@ function WeatherDaily ({theme, dailyData, setCard}: IWeatherDailyProps) {
     }
 
     useEffect(()=>{
-        if(theme === 'dark'){
-            const activeCard = document.querySelector(`.${styles.active}`)
-            activeCard!?.classList.remove(`${styles.active}`)
-            activeCard!?.classList.add(`${styles.activeDark}`)
-        }
-        else {
-            const activeCard = document.querySelector(`.${styles.activeDark}`)
-            activeCard!?.classList.remove(`${styles.activeDark}`)
-            activeCard!?.classList.add(`${styles.active}`)
-        }
-    },[theme])
+    const list = dailyData.map(({daily, hourly})=>{
+        const {time, temperature_2m_min, temperature_2m_max} = daily
+        return prepareDataForDisplay(hourly, time!, temperature_2m_min!, temperature_2m_max!)
+    })
+    setDailyList(list)
+
+    },[dailyData])
 
     return (
         <div className={styles.container}>
             <ul className={styles.dailyList}>
-            {
-                dailyData.map(({ daily }, index)=> {
-                    const {time, precipitation_probability_mean, temperature_2m_min, temperature_2m_max, cloud } = daily
-                    const item = prepareDataForDisplay(time!, cloud, precipitation_probability_mean!, temperature_2m_min!, temperature_2m_max!)
-                    return (
-                        <li 
-                            onClick={changeActiveCard(index)} 
-                            className={index === 0 ? `${styles.listItem} ${styles.active}` : styles.listItem} 
-                            key={index}>
+                {
+                    dailyList && dailyList.map((item, index)=> {
+                        return (
+                            <li 
+                                onClick={changeActiveCard(index)} 
+                                className={index === activeCard ? `${styles.listItem} ${currentActiveClass}` : styles.listItem} 
+                                key={index}>
 
-                            <p className={styles.day}>{t('day').split(', ')[item.day]}</p>
-                            <p style={{color:item.holiday}} className={styles.date}>{item.date}</p>
-                            <p>{t('month').split(', ')[item.month]}</p>
+                                <p className={styles.day}>{t('day').split(', ')[item.day]}</p>
+                                <p style={{color:item.holiday}} className={styles.date}>{item.date}</p>
+                                <p>{t('month').split(', ')[item.month]}</p>
 
-                            <img src={item.icon?.picture} alt=""/>
+                                <img title={`${t('icon.'+item.icon.alt)}`} src={item.icon.picture} alt={`${t('icon.'+item.icon.alt)}`}/>
 
-                            <div className={styles.temperature}>
-                                <div>
-                                    <p>{t('min')}</p>
-                                    <span>{item.minTemperature}</span>
+                                <div className={styles.temperature}>
+                                    <div>
+                                        <p>{t('min')}</p>
+                                        <span>{item.minTemperature}</span>
+                                    </div>
+                                    <div>
+                                        <p>{t('max')}</p>
+                                        <span>{item.maxTemperature}</span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p>{t('max')}</p>
-                                    <span>{item.maxTemperature}</span>
-                                </div>
-                            </div>
-                        </li>
-                    )
-                })
-            }
-        </ul>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
         </div>
     )
 }
-export default React.memo(WeatherDaily)

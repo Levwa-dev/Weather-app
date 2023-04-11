@@ -53,18 +53,31 @@
     } 
 }
 .activeDark {
-    box-shadow:  0 0 10px rgb(253, 126, 126);
+    box-shadow:  0 0 5px rgb(253, 126, 126);
     background-color: rgb(71, 45, 45);
     transform: scale(1.05);
 }
 .active {
     background-color: rgb(243, 250, 255);
-    box-shadow: 0 0 10px rgb(98, 161, 255);
+    box-shadow: 0 0 5px rgb(98, 161, 255);
     transform: scale(1.05);
 } 
 @media screen and (max-width: 940px) {
     .dailyList {
         place-content: start;
+    }
+}
+@media screen and (max-width: 450px) {
+    .dailyList {
+        grid-template-columns: repeat(7, 100px);
+    }
+    .container {
+        padding:0 5px;
+    }
+    .listItem {
+        padding: 3px;
+        font-size: 16px;
+        height: 180px;
     }
 }
 

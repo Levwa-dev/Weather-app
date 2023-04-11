@@ -18,3 +18,13 @@
         background-image: url('../../../images/languages/GB.png');
     }
 }
+@media screen and (max-width:450px) {
+    .selectBody {
+        width: 45px;
+        column-gap: 5px;
+        & button {
+            width: 20px;
+            height: 15px;
+        }
+    }
+}

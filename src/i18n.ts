@@ -17,7 +17,7 @@ i18n
         },
     },
     
-    fallbackLng: sessionStorage.getItem('language') || 'ua',
+    fallbackLng: localStorage.getItem('language') || 'ua',
     debug: false,
     keySeparator: false,
     ns: ["translations"],

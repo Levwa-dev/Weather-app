@@ -52,13 +52,10 @@ export default function WeatherTable ({theme, hourly, hourlyUnits}: IWeatherTabl
                     <tr className={styles.icons}>
                         <td></td>
                         {
-                            hourly?.temperature_2m!.map((item, index)=>{
-                                const cloud = hourly?.cloudcover![index]
-                                const precipitation = hourly?.precipitation_probability![index]
-                                const result = weatherService.chooseIconForCurrentWeather(cloud, precipitation, Math.round(item))
+                            hourly?.icons!.map((item : any, index : number)=>{
                                 return (
                                     <td key={index}>
-                                        <img className={styles.icon} src={result.picture} alt={result.alt} />
+                                        <img title={`${t(`icon.${item.alt}`)}`} className={styles.icon} src={item.picture} alt={`${t(`icon.${item.alt}`)}`} />
                                     </td>
                                 )
                             })

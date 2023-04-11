@@ -15,5 +15,16 @@
     "hourly.humidity":"Relative humidity",
     "hourly.wind":"Wind speed",
     "hourly.precipitation":"Precipitation probability",
-    "hourly.units.wind":"m/s"
+    "hourly.units.wind":"m/s",
+    "icon.thundershtorm":"Thunderstorm",
+    "icon.snow":"Snow",
+    "icon.snowWithClearings":"Snow with clearings",
+    "icon.aLittleSnow":"Little snow",
+    "icon.rain":"Rain",
+    "icon.aLittleRain":"Little rain",
+    "icon.rainWithClearings":"Rain with clearings",
+    "icon.cloudy":"Cloudy",
+    "icon.cloudyWithClearings":"Cloudy with clearings",
+    "icon.clear":"Clear",
+    "icon.sunThundershtorm":"Thunderstorm with clearings"
 }

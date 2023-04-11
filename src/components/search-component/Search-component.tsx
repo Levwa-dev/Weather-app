@@ -19,9 +19,9 @@ export default function SearchComponent({ setParams, prevValue }: ISearchCompone
 
     const sendData = async(address:string) => {
         const response = await geocodeService.getCoords(address)
-        const city = location
+        const city = address || location
         if(!response.error){
-            sessionStorage.setItem('currentCity', JSON.stringify({city, latitude:response.lat!, longitude:response.lng!}))
+            localStorage.setItem('currentCity', JSON.stringify({city, latitude:response.lat!, longitude:response.lng!}))
             setParams({...prevValue, city, latitude:response.lat!, longitude:response.lng!})
         }
         else{
@@ -39,11 +39,11 @@ export default function SearchComponent({ setParams, prevValue }: ISearchCompone
     }
 
     const submitFromBlur = (address: string) => ({relatedTarget}: React.FocusEvent) => {
-        if(relatedTarget !== null && relatedTarget!.innerHTML === '&#128269;' && address){
+        if(relatedTarget && relatedTarget?.id === 'search' && address){
             sendData(address)
         }
     }
-    const onError = (status: string, clearSuggestions:()=>void) => {
+    const onError = (status: string, clearSuggestions:()=> void) => {
         clearSuggestions()
     }
     return (
@@ -51,7 +51,7 @@ export default function SearchComponent({ setParams, prevValue }: ISearchCompone
             {
                 locationError && <Modal modalText={locationError} setState={setLocationError}/>
             }
-            <section className={styles.searchContent}>
+            <header className={styles.searchContent}>
                 <form className={styles.formBody}>
                     <PlacesAutocomplete
                         value={location}
@@ -65,7 +65,7 @@ export default function SearchComponent({ setParams, prevValue }: ISearchCompone
                                                 onBlur:submitFromBlur(suggestions[0]?.description)
                                             })}
                                         />
-                                        <button onClick={submit(location)}>&#128269;</button>
+                                        <button id="search" onClick={submit(location)}>&#128269;</button>
                                     </div>
                                     { suggestions.length ?
                                     <ul className={[styles.autocompleteContainer, state.theme].join(' ')}>
@@ -92,7 +92,7 @@ export default function SearchComponent({ setParams, prevValue }: ISearchCompone
                         <ChangeLanguage/>
                     </div>
                 </form>
-            </section>
+            </header>
         </>
     )
 }

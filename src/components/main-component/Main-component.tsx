@@ -4,7 +4,7 @@ import { weatherService} from "../../services/weather-service";
 import { IParams } from '../../types/main-component-types';
 import { defaultParams } from '../../request-config';
 import { ActionTypes } from '../../types/app-component-types';
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 import SearchComponent from '../search-component/Search-component';
 import Weather from '../weather-components/weather-component/weather-component';
@@ -14,24 +14,17 @@ import Error from '../error-component/Error-component';
 
 export default function MainComponent () {
     const {state, dispatch} = useContext(State)
-    let currentCity = JSON.parse(sessionStorage.getItem('currentCity')!)
+    let currentCity = JSON.parse(localStorage.getItem('currentCity')!)
     currentCity = {...defaultParams, ...currentCity}
     const [params, setParams] = useState<IParams>(currentCity || defaultParams)
     const { t } = useTranslation();
   
     useEffect(()=>{
         dispatch({type: ActionTypes.LOADING, data:true})
-        weatherService.getWeather(params)
-        .then((data)=> {
-          weatherService.setCacheWeatherRequest(params)
-          dispatch({type:ActionTypes.DATA, data})
-        })
+        weatherService.setCacheWeatherRequest(params)
+        .then(data=>dispatch({type:ActionTypes.DATA, data}))
         .catch(err=>dispatch({type:ActionTypes.ERROR, data:t('error')}))
-    },[params])
-
-    useEffect(()=>{
-      console.log(state)
-    },[state])
+    },[params, t, dispatch])
 
     if(state.error) {
       return (
@@ -44,11 +37,11 @@ export default function MainComponent () {
       )
     }
     return (
-        <main>
-          <div className='wrapper'>
-            <SearchComponent setParams={setParams} prevValue={params}/>
+        <div className='wrapper'>
+          <SearchComponent setParams={setParams} prevValue={params}/>
+          <main>
             <Weather/>
-          </div>
-        </main>
+          </main>
+        </div>
     )
 }

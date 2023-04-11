@@ -25,7 +25,7 @@
                 content: "";
                 height: 16.5px;
                 width: 16.5px;
-                left: 1px;
+                left: 0.5px;
                 bottom: 0.3px;
                 background-color: rgb(251, 255, 1);
                 -webkit-transition: .4s;
@@ -44,9 +44,21 @@
         }
         & input:checked + .slider:before {
             background-color: #d9e4fa;
-            -webkit-transform: translateX(47px);
-            -ms-transform: translateX(47px);
-            transform: translateX(47px);
+            -webkit-transform: translateX(49px);
+            -ms-transform: translateX(49px);
+            transform: translateX(49px);
+        }
+    }
+}
+@media screen and (max-width:450px) {
+    .checkbox {
+        width: 35px;
+        & label{
+            & input:checked + .slider:before {
+                -webkit-transform: translateX(23.5px);
+                -ms-transform: translateX(23.5px);
+                transform: translateX(23.5px);
+            }
         }
     }
 }

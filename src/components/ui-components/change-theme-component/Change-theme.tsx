@@ -7,12 +7,13 @@ export default function ChangeTheme () {
     const {state, dispatch} = useContext(State)
 
     const changeTheme = (e : React.ChangeEvent<HTMLInputElement>) : void => {
+        dispatch({type: ActionTypes.LOADING, data:true})
         if(e.target.checked){
-            sessionStorage.setItem('theme','dark')
+            localStorage.setItem('theme','dark')
             dispatch({type: ActionTypes.THEME, data:'dark'})
             return
         }
-        sessionStorage.setItem('theme','light')
+        localStorage.setItem('theme','light')
         dispatch({type: ActionTypes.THEME, data:'light'})
     }
 

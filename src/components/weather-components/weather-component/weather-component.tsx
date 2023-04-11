@@ -1,4 +1,4 @@
-import React, {useContext, useState, useMemo, useEffect} from "react";
+import React, {useContext, useState} from "react";
 import { useTranslation } from "react-i18next";
 import { State } from "../../../App";
 import styles from './weather.module.scss'
@@ -12,17 +12,13 @@ export default function Weather () {
 
     const { t } = useTranslation();
 
-    let {city, dailyData} = data
-
-    dailyData = useMemo(()=>{
-        return dailyData
-    },[dailyData])
+    const {city, dailyData} = data
     
     return (
         <section>
             <h1>{`${t('wheather.city')} ${city}`}</h1>
             <div className={styles.container}>
-                <WeatherDaily theme={theme} dailyData = {dailyData} setCard={setActiveCard}/>
+                <WeatherDaily theme={theme} dailyData = {dailyData} activeCard={activeCard} setCard={setActiveCard}/>
                 <WeatherHourly theme={theme} data = {dailyData} active={activeCard}/>
             </div>
         </section>

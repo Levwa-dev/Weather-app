@@ -7,7 +7,7 @@ const initialState = {
   error: '',
   isLoading: false,
   data: {city:'', dailyData:[]},
-  theme: sessionStorage.getItem('theme') || 'light'
+  theme: localStorage.getItem('theme') || 'light'
 }
 
 export const State = createContext<Context>({
@@ -24,7 +24,7 @@ function App() {
       case ActionTypes.LOADING:
         return {...state, isLoading:true}
       case ActionTypes.THEME:
-        return {...state, theme: action.data}
+        return {...state, theme: action.data, isLoading:false}
       case ActionTypes.DATA:
         return {
           ...state,

@@ -8,7 +8,7 @@ export default function ChangeLanguage () {
     const {i18n} = useTranslation();
 
     const changeLanguage = (lng: string) => {
-        sessionStorage.setItem('language', lng)
+        localStorage.setItem('language', lng)
         i18n.changeLanguage(lng);
     };
 
