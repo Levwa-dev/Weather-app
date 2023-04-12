@@ -1,8 +1,9 @@
 import React from "react";
 import styles from './weather-table.module.scss'
-import { weatherService } from "../../../services/weather-service";
-import { useTranslation } from "react-i18next";
+import arrow from '../../../images/wind-direction/arrow.png'
 
+import { useTranslation } from "react-i18next";
+import { weatherService } from "../../../services/weather-service";
 import { INewHourlyData } from "../../../types/weather-service-types";
 import { IHourlyUnits } from "../../../types/main-component-types";
 
@@ -14,13 +15,13 @@ interface IWeatherTable {
 
 export default function WeatherTable ({theme, hourly, hourlyUnits}: IWeatherTable) {
     const { t } = useTranslation();
-    
+    const backGroundColor = '#d9d9d9'
+
     const showTemperature = (temperature:number) => {
         return Math.round(temperature) > 0 ? `+${Math.round(temperature)}°`: Math.round(temperature)+'°'
     }
-    const backGroundColor = '#d9d9d9'
-    const getDayParts = () => t('hourly.dayPart').split(', ')
     
+    const getDayParts = () => t('hourly.dayPart').split(', ')
     return (
         <>
             { Object.keys(hourly).length &&
@@ -95,8 +96,14 @@ export default function WeatherTable ({theme, hourly, hourlyUnits}: IWeatherTabl
                         <td>{t('hourly.wind')}, {t('hourly.units.wind')}</td>
                             {
                             hourly?.windspeed_10m!.map((item, index)=>{
+                                const {direction, alt} = weatherService.showWindDirection(hourly?.winddirection_10m![index])
                                 return (
-                                    <td key={index}>{item}</td>
+                                    <td className={styles.windContent} key={index}>
+                                        <div>
+                                            <img title={`${t('direction.'+alt)}`}  style={{transform:`rotate(${direction}deg)`}}  src={arrow} alt={`${t('direction.'+alt)}`} />
+                                            <span>{item.toFixed(1)}</span>
+                                        </div>
+                                    </td>
                                 )
                             })
                         }

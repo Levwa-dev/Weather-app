@@ -142,6 +142,31 @@ export const weatherService = {
         return  time < 6 || time >= 21 ? {picture: moon, alt:'clear'} : {picture:sun, alt:'clear'}
     },
 
+    showWindDirection ( windDirection: number) {
+        if(windDirection <= 15 || windDirection >= 345) {
+            return {direction:180, alt: "north"}
+        }
+        if(windDirection > 15 && windDirection < 75) {
+            return {direction:225, alt: "northEast"}
+        }
+        if(windDirection <= 105 && windDirection >= 75) {
+            return {direction:270, alt: "east"}
+        }
+        if(windDirection > 105 && windDirection < 165) {
+            return {direction:315, alt: "eastSouth"}
+        }
+        if(windDirection <= 195 && windDirection >= 165) {
+            return {direction:0, alt: "south"}
+        }
+        if(windDirection > 195 && windDirection < 255) {
+            return {direction:45, alt: "southWest"}
+        }
+        if(windDirection <= 285 && windDirection >= 255) {
+            return {direction:90, alt: "west"}
+        }
+        return {direction: 130, alt:'westNorth'}
+    },
+
     getTime(time:string) {
         const currentDate = new Date(time)
         const month: number = currentDate.getMonth()

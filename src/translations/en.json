@@ -26,5 +26,13 @@
     "icon.cloudy":"Cloudy",
     "icon.cloudyWithClearings":"Cloudy with clearings",
     "icon.clear":"Clear",
-    "icon.sunThundershtorm":"Thunderstorm with clearings"
+    "icon.sunThundershtorm":"Thunderstorm with clearings",
+    "direction.north": "Northern",
+    "direction.northEast": "Northeastern",
+    "direction.east": "Eastern",
+    "direction.eastSouth": "Southeastern",
+    "direction.south": "Southern",
+    "direction.southWest": "Southwestern",
+    "direction.west": "Western",
+    "direction.westNorth": "Northwestern"
 }

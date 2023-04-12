@@ -26,6 +26,13 @@
     "icon.cloudy":"Хмарно",
     "icon.cloudyWithClearings":"Хмарно з проясненнями",
     "icon.clear":"Ясно",
-    "icon.sunThundershtorm":"Блискавка з проясненнями"
-
+    "icon.sunThundershtorm":"Блискавка з проясненнями",
+    "direction.north": "Північ",
+    "direction.northEast": "Північно-східний",
+    "direction.east": "Східний",
+    "direction.eastSouth": "Південно-східний",
+    "direction.south": "Південний",
+    "direction.southWest": "Південно-західний",
+    "direction.west": "Західний",
+    "direction.westNorth": "Північно-західний"
 }
