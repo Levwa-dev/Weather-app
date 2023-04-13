@@ -9,6 +9,7 @@ export default function ChangeLanguage () {
 
     const changeLanguage = (lng: string) => {
         localStorage.setItem('language', lng)
+        localStorage.removeItem('currentCity')
         i18n.changeLanguage(lng);
     };
 

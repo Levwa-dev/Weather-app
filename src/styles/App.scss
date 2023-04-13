@@ -9,6 +9,18 @@
     background-color: #fff;
     color: #000000;
 }
+
+.pac-item,
+.pac-item-query {
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px;
+}
+.pac-item:hover {
+    background-color: #003fb4;
+}
+
+
 .wrapper {
     padding: 0 85px;
 }

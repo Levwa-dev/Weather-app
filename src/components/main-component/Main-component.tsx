@@ -18,7 +18,7 @@ export default function MainComponent () {
     currentCity = {...defaultParams, ...currentCity}
     const [params, setParams] = useState<IParams>(currentCity || defaultParams)
     const { t } = useTranslation();
-  
+
     useEffect(()=>{
         dispatch({type: ActionTypes.LOADING, data:true})
         weatherService.setCacheWeatherRequest(params)
