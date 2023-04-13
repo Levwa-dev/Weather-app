@@ -1,6 +1,6 @@
 To run this project you need to take a GOOGLE MAP KEY at first. Because this key is needed to perform geocoding of user-entered city locations.
 The project is posted at the following link: 
-  https://weather-app-levwa-dev.vercel.app
+  https://weather-app-teal-two.vercel.app
 
   1) Clone this project to your directory
   2) Run "npm install" using the terminal.
